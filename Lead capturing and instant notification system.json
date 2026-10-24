@@ -1,0 +1,290 @@
+{
+  "name": "Lead capturing and instant notification system",
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "07c8ed84-0f15-42d4-9b77-5162c2228bbc",
+              "name": "Name:",
+              "value": "={{ $json['Name:'] }}",
+              "type": "string"
+            },
+            {
+              "id": "782e5481-a4ec-46dc-a30c-faea446e78f1",
+              "name": "Email Address",
+              "value": "={{ $json['Email Address'] }}",
+              "type": "string"
+            },
+            {
+              "id": "3b057b80-d8e3-43cf-88d7-ba64243e95a0",
+              "name": "Phone Number",
+              "value": "={{ $json['Phone Number'] }}",
+              "type": "string"
+            },
+            {
+              "id": "9292ab94-1bc9-4457-aa46-0922ac2a7b84",
+              "name": "How can we help you",
+              "value": "={{ $json['How can we help you'] }}",
+              "type": "string"
+            },
+            {
+              "id": "d0005f11-e55b-486e-af14-10a75d074429",
+              "name": "submittedAt",
+              "value": "={{ $json.submittedAt }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        224,
+        -80
+      ],
+      "id": "c6a12bd6-bf13-4b6f-81d1-4d143e847485",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $vars.test_group }}",
+        "text": "=Alert !!!!! \nNew contact \nName: {{ $json.Name }}\nEmail: {{ $json.Email }}\nPhone Number: {{ $json.Phone_Number }}\nMessage: {{ $json.Describtion }}\nTime: {{ $json.Timestamp }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        672,
+        -176
+      ],
+      "id": "2e36c244-5bcf-4191-b76c-ceb586baa451",
+      "name": "Send a text message",
+      "webhookId": "3f4e9208-c34b-45a0-9d5e-486eb14d3a4a",
+      "credentials": {
+        "telegramApi": {
+          "id": "xaoExj897e4qu7Pv",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $vars.business_mail }}",
+        "subject": "Hello ",
+        "emailType": "text",
+        "message": "=Alert !!!!! \nNew contact \nName: {{ $json.Name }}\nEmail: {{ $json.Email }}\nPhone Number: {{ $json.Phone_Number }}\nMessage: {{ $json.Describtion }}\nTime: {{ $json.Timestamp }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        672,
+        16
+      ],
+      "id": "0fa4f74d-6939-41cf-ab70-d1d4b70f8179",
+      "name": "Send a message",
+      "webhookId": "53c55468-ac7c-4057-906e-6e512e1054bf",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "FL2lozF3VrbReast",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "formTitle": "Contact-US",
+        "formDescription": "How can we help you today",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Name:",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Email Address",
+              "fieldType": "email",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Phone Number",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "How can we help you",
+              "placeholder": "tell us about your needs",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.6,
+      "position": [
+        0,
+        -80
+      ],
+      "id": "a05a7064-b806-4768-a10b-188f7260f69a",
+      "name": "On form submission",
+      "webhookId": "916c3659-389c-49a3-be62-487a10006c2d"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1_-0vqPOpssFVDxObXRmMtDZNRoJ8jOpZSze3yP0zJdw",
+          "mode": "list",
+          "cachedResultName": "B-Automation 001",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1_-0vqPOpssFVDxObXRmMtDZNRoJ8jOpZSze3yP0zJdw/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1_-0vqPOpssFVDxObXRmMtDZNRoJ8jOpZSze3yP0zJdw/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $json['Name:'] }}",
+            "Email": "={{ $json['Email Address'] }}",
+            "Phone_Number": "={{ $json['Phone Number'] }}",
+            "Describtion": "={{ $json['How can we help you'] }}",
+            "Timestamp": "={{ $json.submittedAt }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Phone_Number",
+              "displayName": "Phone_Number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Describtion",
+              "displayName": "Describtion",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Timestamp",
+              "displayName": "Timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        448,
+        -80
+      ],
+      "id": "945fafca-1afe-40b9-90ff-4011fc24bc17",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QuaSNqzVwHCYkGMf",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "d7e5b3f8-12fc-4e1e-8341-3f62879ee103",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "b244392352fb797617189b3fb80d9ca3af3f3442b27d9c84c7749d23c4847a61"
+  },
+  "nodeGroups": [],
+  "id": "07ktNCUqvSC6iLwz",
+  "tags": []
+}
